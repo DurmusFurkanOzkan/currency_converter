@@ -1,16 +1,12 @@
 import React from "react";
-
-
-function Button(props){
-    return <button className="buttons"  style={{color:props.color,backgroundColor:props.backColor}}>{props.name}</button>
-}
+import Button from "./Button";
 
 function Navbar(){
 
     return <div className="navbar">
 
         <div className="navbar_left_side">
-            <img className="left_side_img" src="../images/xe2.png"/>
+            <img className="left_side_img" src="../images/icon_svg.jpg"/>
             <Button name="Personal"/>
             <hr />
             <Button name="Business" color="#A8A8A8"/>
