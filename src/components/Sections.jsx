@@ -1,34 +1,108 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "./Button";
+import latest from "./latest";
+import currencies from "./currencies";
+import { useRef } from "react";
 
-
-var items=[];
 var flag=false;
+const b=[];
 
-
+const items=[];
+const currenc=[];
 function Comp(props){
+    const [symbol,setSymbol] =useState("د.إ");
+    var option;
+    function handleChange(e){
+        props.passChildData(e.target.value);
+        
+        
+    }
     
-
+    
     return <div className="comp_full">
         <p className="comp_text">{props.name}</p>
-        {props.name!="Amount"?<select className="select_class"></select>:<input type="text" className="select_class" id="amount"></input>}
+        {props.name!="Amount"?<select className="select_class" onChange={handleChange} >
+        {flag ? Object.entries(props.cur[0]).map(([k, v])=><option id={props.cur[0][k].symbol_native}>{k+"-"+props.cur[0][k].name}</option>):"0"}
         
-    </div>
+        </select>:<input type="text" className="select_class" id="amount"></input>}
+        </div>
     
 }
+
+
+// props.passChildData(previousInputValue.options[previousInputValue.selectedIndex].text);
+/*
+if (props.name!="Amount"){
+        console.log(props.items);
+    }
+    */
+
+
+/*
+return <div className="comp_full">
+        <p className="comp_text">{props.name}</p>
+        {props.name!="Amount"?<select className="select_class">
+        {flag ? Object.entries(props.items[0]).map(([k, v])=><option value={k}>{k}</option>):"0"}
+        </select>:<input type="text" className="select_class" id="amount"></input>}
+        
+        </div>
+        */
+
+
+
+
+
+
 //   console.log(props.items[0]);
+//  {flag ? Object.entries(props.items[0]).map(([k, v])=><option value={k}>{k}</option>):"0"}
+  
 //{flag ? Object.entries(props.items[0]).map(([k, v])=><option value={k}>{k}</option>):"0"}
        
 
 //  {Object.entries(props.items[0]).map(([k, v])=><option value={k}>{k}</option>)}
 //{items.map((item)=> Object.keys(item).map(([k, v]) => console.log(k) ))}
 function Convert(props) {
+    const [selectedCurrency1, setSelectedCurrency1] = useState("AED-United Arab Emirates Dirham");
+    const [selectedCurrency2, setSelectedCurrency2] = useState("AED-United Arab Emirates Dirham");
+    var count1=0;
+    var count2=0;
+    var amount=0;
+    //console.log(selectedCurrency1.slice(0,3));
+    //console.log(selectedCurrency2.slice(0,3));
+
+   
+    for (var key1 in props.items[0]){
+        
+        if(key1==selectedCurrency1.slice(0,3)){
+            for (var key2 in props.items[0][key1]){
+            
+                
+                if(key2=="value"){
+                    count1= props.items[0][key1][key2];
+                }
+            }
+        }else if(key1==selectedCurrency2.slice(0,3)){
+            for (var key2 in props.items[0][key1]){
+            
+                if(key2=="value"){
+                    count2=props.items[0][key1][key2];
+                }
+            }
+        }
+        
+    }
+
+    amount=count2/count1;
+    console.log(count1);
+    console.log(count2);
+    console.log(amount);
+
     return <div className="total_convert">
     <div className="convert">
         <Comp name="Amount" />
-        <Comp name="From" items={props.items}/>
+        <Comp name="From" items={props.items} cur={props.cur} passChildData={setSelectedCurrency1}/>
         <img className="change" src="../images/change.svg"/>
-        <Comp name="To" items={props.items}/>
+        <Comp name="To" items={props.items}  cur={props.cur} passChildData={setSelectedCurrency2}/>
     </div>
     <div className="convert_footer">
         <div className="convert_footer_left">
@@ -39,11 +113,10 @@ function Convert(props) {
             <button className="convert_button">Convert</button>
         </div>
     </div>
-    
     </div>
 }
 function Send() {
-
+   
     return <><p>Send Section</p></>
 }
 function Charts() {
@@ -83,6 +156,15 @@ function Sections() {
 
     const [location,setLocation]=useState("first_bottom");
     
+    
+    
+    useEffect(() => {
+
+        currenc.push(currencies.data);
+
+        items.push(latest.data);
+      }, []);
+    
     /*
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", function () { 
@@ -111,8 +193,9 @@ function Sections() {
     */
 
     function changeSection(e){
-        flag=true;
+        
         if(e.target.id=="first_bottom" || e.target.parentNode.id=="first_bottom"){
+            flag=true;
             setTitle("Xe Currency Converter");
             setFont(700);
             setFont2(400);
@@ -160,7 +243,7 @@ function Sections() {
                 <Section_Button id="last_bottom" weight={font4} class="fa fa-bell" name="Alerts" onClick={changeSection}/>
             </div>
             <div className="Content">
-                {location=="first_bottom"?<Convert items={items}/>:location=="second_bottom"?<Send />:location=="third_bottom"?<Charts/>:<Alerts/>}
+                {location=="first_bottom"?<Convert items={items} cur={currenc} />:location=="second_bottom"?<Send />:location=="third_bottom"?<Charts/>:<Alerts/>}
             </div>
           
         </div>
