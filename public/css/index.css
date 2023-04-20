@@ -89,7 +89,10 @@ button:hover{
 }
 
 .Section{
-  height:300px;
+  display: flex;
+  flex-direction: column;
+  min-height: 30vh;
+  clear: both;
   background-color: white;
   width: 95%;
   margin: 0 auto ;
@@ -187,8 +190,7 @@ button:hover{
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-top: -30px;
-  margin-bottom: 100px;
+  margin-bottom: 40px;
 }
 .convert_footer_left{
   width: 50%;
@@ -279,6 +281,14 @@ button:hover{
   margin-top: 1000px;
 }
 
+
+
+/* Convert Div */
+
+.convert_div{
+  color: black;
+  text-align: left;
+}
 
 /*   DATA  API   */
 
