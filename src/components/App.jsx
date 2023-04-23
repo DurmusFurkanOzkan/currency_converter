@@ -12,8 +12,9 @@ import Footer from "./Footer.jsx";
 function App() {
   return <>
   <div className="top"></div>
+  <Navbar/>
   <div className="total">
-      <Navbar/>
+      
       <Back class="dark_blue_background"/>
       <Sections />
       <TransferMoneyInformation />
