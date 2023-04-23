@@ -1,7 +1,7 @@
 #XE CURRENCY PROJECT
 
 
-![currency_converter](https://github.com/DurmusFurkanOzkan/currency_converter/blob/main/CurrencyGif..gif)
+![currency_converter](https://github.com/DurmusFurkanOzkan/currency_converter/blob/main/currency_gif.gif)
 
 
 
