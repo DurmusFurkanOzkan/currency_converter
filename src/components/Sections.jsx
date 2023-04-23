@@ -3,21 +3,14 @@ import latest from "./latest";
 import currencies from "./currencies";
 
 
-var flag = false;
-const items = [];
-const currenc = [];
-
-
 function Comp(props) {
     const [symbol, setSymbol] = useState("د.إ");
 
-
+    
     const [myCar1, setMyCar1] = useState('EUR-Euro');
     const [myCar2, setMyCar2] = useState('USD-US Dollar');
 
     const [xchildAmount,xsetChildAmount]=useState(1);
-    //'EUR' + "-" + props.cur[0]['EUR'].name
-    //'USD' + "-" + props.cur[0]['USD'].name
     function handleChange(e) {
         props.passChildData(e.target.value);
         setMyCar1(e.target.value);
@@ -31,13 +24,6 @@ function Comp(props) {
         
     }
 
-    /*
-    if(props.name!="Amount"){
-        console.log('EUR' + "-" + props.cur[0]['EUR'].name);
-    }
-    */
-
-    //console.log(props.name);
 
     return <div className="comp_full">
         <p className="comp_text">{props.name}</p>
@@ -50,37 +36,6 @@ function Comp(props) {
 }
 
 
-// props.passChildData(previousInputValue.options[previousInputValue.selectedIndex].text);
-/*
-if (props.name!="Amount"){
-        console.log(props.items);
-    }
-    */
-
-
-/*
-return <div className="comp_full">
-        <p className="comp_text">{props.name}</p>
-        {props.name!="Amount"?<select className="select_class">
-        {flag ? Object.entries(props.items[0]).map(([k, v])=><option value={k}>{k}</option>):"0"}
-        </select>:<input type="text" className="select_class" id="amount"></input>}
-        
-        </div>
-        */
-
-
-
-
-
-
-//   console.log(props.items[0]);
-//  {flag ? Object.entries(props.items[0]).map(([k, v])=><option value={k}>{k}</option>):"0"}
-
-//{flag ? Object.entries(props.items[0]).map(([k, v])=><option value={k}>{k}</option>):"0"}
-
-
-//  {Object.entries(props.items[0]).map(([k, v])=><option value={k}>{k}</option>)}
-//{items.map((item)=> Object.keys(item).map(([k, v]) => console.log(k) ))}
 function Convert(props) {
     const [selectedCurrency1, setSelectedCurrency1] = useState("EUR-Euro");
     const [selectedCurrency2, setSelectedCurrency2] = useState("USD-US Dollar");
@@ -88,7 +43,7 @@ function Convert(props) {
     const [show,setShow]=useState(false);
     const [calculateDiv, setCalculateDiv] = useState({from:"",result:"",onefrom:"",oneto:""});
 
-    console.log(amount);
+  
 
     function ConvertCurrency() {
         setShow(true);
@@ -195,41 +150,9 @@ function Sections() {
     const [location, setLocation] = useState("first_bottom");
 
     
-   
-    currenc[0]=currencies.data;
-    items[0]=latest.data;
-
-    /*
-    var oReq = new XMLHttpRequest();
-    oReq.addEventListener("load", function () { 
-        const test=JSON.parse(this.responseText)
-       
-        items.push(test.data);
-        
-
-        
-        for (var key1 in test.data){
-            for (var key2 in test.data[key1]){
-                
-                if(key2=="code"){
-                    items["code"]=test.data[key1][key2];
-                }
-                if(key2=="value"){
-                    console.log(test.data[key1][key2])
-                }
-            }
-        }
-        
-    });
-    oReq.open("GET", "https://api.currencyapi.com/v3/latest?apikey=nH0IAv73kaX3CGKtx9fkeD187JaGSGIDyarpr5TB");
-
-    oReq.send();
-    */
-
     function changeSection(e) {
 
         if (e.target.id == "first_bottom" || e.target.parentNode.id == "first_bottom") {
-            flag = true;
             setTitle("Xe Currency Converter");
             setFont(700);
             setFont2(400);
@@ -275,7 +198,7 @@ function Sections() {
                 <Section_Button id="last_bottom" weight={font4} class="fa fa-bell" name="Alerts" onClick={changeSection} />
             </div>
             <div className="Content">
-                {location == "first_bottom" ? <Convert items={items} cur={currenc} /> : location == "second_bottom" ? <Send /> : location == "third_bottom" ? <Charts /> : <Alerts />}
+                {location == "first_bottom" ? <Convert items={latest} cur={currencies} /> : location == "second_bottom" ? <Send /> : location == "third_bottom" ? <Charts /> : <Alerts />}
             </div>
 
         </div>
