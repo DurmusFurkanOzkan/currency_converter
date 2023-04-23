@@ -1,32 +1,50 @@
 import React, { useEffect, useState } from "react";
-import Button from "./Button";
 import latest from "./latest";
 import currencies from "./currencies";
-import { useRef } from "react";
+
 
 var flag = false;
-const b = [];
-
 const items = [];
 const currenc = [];
+
+
 function Comp(props) {
     const [symbol, setSymbol] = useState("د.إ");
-    var option;
+
+
+    const [myCar1, setMyCar1] = useState('EUR-Euro');
+    const [myCar2, setMyCar2] = useState('USD-US Dollar');
+
+    const [xchildAmount,xsetChildAmount]=useState(1);
+    //'EUR' + "-" + props.cur[0]['EUR'].name
+    //'USD' + "-" + props.cur[0]['USD'].name
     function handleChange(e) {
         props.passChildData(e.target.value);
+        setMyCar1(e.target.value);
+        setMyCar2(e.target.value);
     }
 
     function inputChange(e) {
+        
+        xsetChildAmount(e.target.value);
         props.childAmount(e.target.value);
+        
     }
 
+    /*
+    if(props.name!="Amount"){
+        console.log('EUR' + "-" + props.cur[0]['EUR'].name);
+    }
+    */
+
+    //console.log(props.name);
 
     return <div className="comp_full">
         <p className="comp_text">{props.name}</p>
-        {props.name != "Amount" ? <select className="select_class" onChange={handleChange} >
-            {flag ? Object.entries(props.cur[0]).map(([k, v]) => <option id={props.cur[0][k].symbol_native}>{k + "-" + props.cur[0][k].name}</option>) : "0"}
+        {props.name != "Amount" ? <select className="select_class"  value={props.name === "From" ?myCar1:myCar2} onChange={handleChange} >
+            {Object.entries(props.cur[0]).map(([k, v]) => <option value={k + "-" + props.cur[0][k].name} id={props.cur[0][k].symbol_native}>{k + "-" + props.cur[0][k].name}</option>) }
 
-        </select> : <input type="text" className="select_class" id="amount" onChange={inputChange} ></input>}
+        </select> : <input type="text" value={xchildAmount} className="select_class" id="amount" onChange={inputChange} ></input>}
     </div>
 
 }
@@ -64,21 +82,16 @@ return <div className="comp_full">
 //  {Object.entries(props.items[0]).map(([k, v])=><option value={k}>{k}</option>)}
 //{items.map((item)=> Object.keys(item).map(([k, v]) => console.log(k) ))}
 function Convert(props) {
-    const [selectedCurrency1, setSelectedCurrency1] = useState("AED-United Arab Emirates Dirham");
-    const [selectedCurrency2, setSelectedCurrency2] = useState("AED-United Arab Emirates Dirham");
-    const [amount, setAmount] = useState(0);
+    const [selectedCurrency1, setSelectedCurrency1] = useState("EUR-Euro");
+    const [selectedCurrency2, setSelectedCurrency2] = useState("USD-US Dollar");
+    const [amount, setAmount] = useState(1);
     const [show,setShow]=useState(false);
-    const [height,setHeight]=useState();
     const [calculateDiv, setCalculateDiv] = useState({from:"",result:"",onefrom:"",oneto:""});
 
-    //console.log(selectedCurrency1.slice(0,3));
-    //console.log(selectedCurrency2.slice(0,3));
-    //console.log(amount);
-
+    console.log(amount);
 
     function ConvertCurrency() {
         setShow(true);
-        props.flagshow(show);
         var count1 = 0;
         var count2 = 0;
         var convert1 = 0;
@@ -111,9 +124,9 @@ function Convert(props) {
         convert2 = count1 / count2;
         total_amount=amount*convert1;
         h3From=amount+"  "+selectedCurrency1.slice(4)+" =";
-        pFirst="1 "+selectedCurrency1.slice(0,3)+" = "+convert1.toFixed(2)+" "+selectedCurrency2.slice(0,3);
-        pSecond="1 "+selectedCurrency2.slice(0,3)+" = "+convert2.toFixed(2)+" "+selectedCurrency1.slice(0,3);
-        setCalculateDiv({from:h3From,result:total_amount.toFixed(2),onefrom:pFirst,oneto:pSecond});
+        pFirst="1 "+selectedCurrency1.slice(0,3)+" = "+convert1.toFixed(4)+" "+selectedCurrency2.slice(0,3);
+        pSecond="1 "+selectedCurrency2.slice(0,3)+" = "+convert2.toFixed(4)+" "+selectedCurrency1.slice(0,3);
+        setCalculateDiv({from:h3From,result:total_amount.toFixed(4),onefrom:pFirst,oneto:pSecond});
     }
 
     function changeCurrencies(){
@@ -158,10 +171,6 @@ function Alerts() {
 }
 
 function Section_Button(props) {
-    var auto = "";
-    if (props.id == "first_bottom") {
-        auto = "autofocus";
-    }
 
     return <div className="section_top" onClick={props.onClick}>
         <button id={props.id} className="section_button" >
@@ -177,35 +186,18 @@ function Section_Button(props) {
 function Sections() {
 
 
-    const [sect, setSect] = useState("Convert");
     const [title, setTitle] = useState("The World's Trusted Currency Authority");
     const [subtitle, setSubTitle] = useState("Check exchange rates, send money internationally, and free currency tools");
     const [font1, setFont] = useState("700");
     const [font2, setFont2] = useState("400");
     const [font3, setFont3] = useState("400");
     const [font4, setFont4] = useState("400");
-    const [height,setHeight] =useState("350px");
-    const [showflag,setShowFlag] =useState();
     const [location, setLocation] = useState("first_bottom");
 
-   
     
-    console.log(showflag);
-    useEffect(() =>{
-        if(!showflag){
-            setHeight("350px");
-            
-        }else{
-            setHeight("850px");
-        }
-        console.log(height);
-    },showflag);
-    useEffect(() => {
-        
-        currenc.push(currencies.data);
-
-        items.push(latest.data);
-    }, []);
+   
+    currenc[0]=currencies.data;
+    items[0]=latest.data;
 
     /*
     var oReq = new XMLHttpRequest();
@@ -269,11 +261,9 @@ function Sections() {
             setTitle("Currency Exchange Rate Alerts");
             setSubTitle("Sign-in (or sign-up!) now to get free exchange rate alerts from Xe");
             setLocation("last_bottom");
-        } else {
-            console.log(e.target.parentNode.id);
-        }
+        } 
     }
-    // style={{ height: location == "first_bottom" ?  height : location == "second_bottom" ? "800px" : location == "third_bottom" ? "350px" : "500px" }}
+    
     return <>
         <h1 id="top_h1">{title}</h1>
         <p id="top_p">{subtitle}</p>
@@ -285,7 +275,7 @@ function Sections() {
                 <Section_Button id="last_bottom" weight={font4} class="fa fa-bell" name="Alerts" onClick={changeSection} />
             </div>
             <div className="Content">
-                {location == "first_bottom" ? <Convert items={items} cur={currenc} flagshow={setShowFlag}/> : location == "second_bottom" ? <Send /> : location == "third_bottom" ? <Charts /> : <Alerts />}
+                {location == "first_bottom" ? <Convert items={items} cur={currenc} /> : location == "second_bottom" ? <Send /> : location == "third_bottom" ? <Charts /> : <Alerts />}
             </div>
 
         </div>

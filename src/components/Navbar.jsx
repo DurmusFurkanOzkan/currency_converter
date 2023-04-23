@@ -3,6 +3,7 @@ import Button from "./Button";
 
 function Navbar(){
 
+
     return <div className="navbar">
 
         <div className="navbar_left_side">
