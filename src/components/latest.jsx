@@ -1,12 +1,19 @@
+
 var oReq = new XMLHttpRequest();
 
-const items = [];
+const items = [{}];
 oReq.addEventListener("load", function () { 
-    const latest=JSON.parse(this.responseText);
-    items[0]=latest.data;
-
+    
+    if (this.readyState == 4 && this.status == 200) {
+        const latest=JSON.parse(this.responseText);
+        test(latest.data);
+    }
 });
-oReq.open("GET", "https://api.currencyapi.com/v3/latest?apikey=D0wvavwe31LOghksHOLR8sdFAigv7PcvLBV1uWcD");
+function test(arr){
+
+    items[0]=arr;
+}
+oReq.open("GET", "https://api.currencyapi.com/v3/latest?apikey=SHHDg1qdGx4wtLMp0QNMkWAlr3VtWCaZwCgzfkYj");
 
 oReq.send();
 

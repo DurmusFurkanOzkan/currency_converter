@@ -149,7 +149,14 @@ function Sections() {
     const [font4, setFont4] = useState("400");
     const [location, setLocation] = useState("first_bottom");
 
-    
+    const [testitems,testsetItems]=useState([]);
+        
+    console.log(latest);
+
+        
+
+      
+
     function changeSection(e) {
 
         if (e.target.id == "first_bottom" || e.target.parentNode.id == "first_bottom") {
