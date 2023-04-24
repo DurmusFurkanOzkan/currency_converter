@@ -1,3 +1,13 @@
+#XE CURRENCY PROJECT
+
+
+![currency_converter](https://github.com/DurmusFurkanOzkan/currency_converter/blob/master/currency_gif.gif)
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
